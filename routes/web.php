@@ -11,6 +11,39 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
+$app->get('/', function () {
+    $is_login = 1;
+    return view("index",compact('is_login'));
+});
+
+$app->get('/about', function () {
+    return view("about");
+});
+
+$app->get('/doctors', function () {
+    return view("doctors");
+});
+
+$app->get('/appointment', function () {
+    return view("appointment");
+});
+
+$app->get('/departments', function () {
+    return view("departments");
+});
+
+$app->get('/services', function () {
+    return view("services");
+});
+
+$app->get('/contact', function () {
+    return view("contact");
+});
+
+$app->get('/single', function () {
+    return view("single");
+});
+
+$app->get('/trade', function () {
+    return view("trade");
 });
