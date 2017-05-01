@@ -47,3 +47,7 @@ $app->get('/single', function () {
 $app->get('/trade', function () {
     return view("trade");
 });
+
+$app->get('/ucenter', function () {
+    return view("ucenter");
+});
