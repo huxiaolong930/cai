@@ -51,3 +51,6 @@ $app->get('/trade', function () {
 $app->get('/ucenter', function () {
     return view("ucenter");
 });
+
+$app->get('/user', "UserController@index");
+$app->get('/save', "UserController@save");
