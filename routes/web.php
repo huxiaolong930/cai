@@ -54,3 +54,4 @@ $app->get('/ucenter', function () {
 
 $app->get('/user', "UserController@index");
 $app->get('/save', "UserController@save");
+$app->get('/reg', "UserController@reg");
