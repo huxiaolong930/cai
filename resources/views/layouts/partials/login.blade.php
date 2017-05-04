@@ -64,6 +64,7 @@
                         <form action="#" method="post">
                             <input type="text" name="Username" placeholder="Username" required=""/>
                             <input type="email" name="Email" placeholder="Email" required=""/>
+                            <button onclick="getCode()">获取验证码</button>
                             <input type="password" name="Password" placeholder="Password" required=""/>
                             <div class="wthree-text">
                                 <ul>
@@ -88,3 +89,8 @@
     </div>
 </div>
 <!-- //modal -->
+<script>
+    function getCode() {
+
+    }
+</script>
