@@ -48,6 +48,8 @@ $app->get('/trade', function () {
     return view("trade");
 });
 
+$app->get('/quiz', "QuizController@index");
+
 $app->get('/ucenter', function () {
     return view("ucenter");
 });
