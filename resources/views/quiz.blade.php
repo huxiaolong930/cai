@@ -22,32 +22,42 @@
     <!-- breadcrumbs -->
     <div class="w3l_agileits_breadcrumbs">
         <div class="container">
-            <div class="w3l_agileits_breadcrumbs_inner">
-                <ul id="newsMarquee" class="marquee">
-                    <li>上证指数：<span id="shangzheng">3154.66 ↑2.47 0.08% 1831.96亿元 (涨:749 平:212 跌:417)</span></li>
-                    <li>深证成指：<span id="shangzheng">10234.65 ↑5.46 0.05% 2332.86亿元(涨:1175 平:309 跌:585)</span></li>
-                    <li>创业板指：<span id="chuangye"></span></li>
-                </ul>
-            </div>
+            {{--<div class="w3l_agileits_breadcrumbs_inner">--}}
+                {{--<ul id="newsMarquee" class="marquee">--}}
+                    {{--<li>上证指数：<span id="shangzheng">3154.66 ↑2.47 0.08% 1831.96亿元 (涨:749 平:212 跌:417)</span></li>--}}
+                    {{--<li>深证成指：<span id="shangzheng">10234.65 ↑5.46 0.05% 2332.86亿元(涨:1175 平:309 跌:585)</span></li>--}}
+                    {{--<li>创业板指：<span id="chuangye"></span></li>--}}
+                {{--</ul>--}}
+            {{--</div>--}}
         </div>
     </div>
     <!-- //breadcrumbs -->
     <!-- Index diagram -->
     <div class="gallery w3-agileits">
         <div class="container">
-            <div class="trade">
-                <!-- inta-day data -->
-                <div id="chartdiv"></div>
-                <!-- //inta-day data -->
-                <div class="clearfix"></div>
-            </div>
+            {{--<div class="trade">--}}
+                {{--<!-- inta-day data -->--}}
+                {{--<div id="chartdiv"></div>--}}
+                {{--<!-- //inta-day data -->--}}
+                {{--<div class="clearfix"></div>--}}
+            {{--</div>--}}
             <div class="sh000001" style="margin: 0 auto;text-align: center">
                 <div class="textLable">{{$today_data}}总奖金池</div>
                 <div class="totalMoney">
                     <img src="/images/gold.jpg" width="32"><span>{{$total_money}}</span>
                 </div>
                 <div class="proportion" style="width: 500px">
-                    <span>看涨</span><span style="width: 400px">444</span><span>看跌</span>
+                    <span style="display: inline">看涨</span>
+                    <div class="progress" style="display: inline">
+                        <div class="progress-bar progress-bar-danger" style="width: 71%">
+                            <span class="sr-only">up</span>
+                        </div>
+                        <div class="progress-bar progress-bar-success" style="width: 29%">
+                            <span class="sr-only">down</span>
+                        </div>
+                    </div>
+                    <span style="display: inline">看跌</span>
+                    <div class="clearfix"></div>
                 </div>
                 <div class="textLable">
                     <span>{{$up_prop}}</span><span>VS</span><span>{{$down_prop}}</span>
