@@ -9,10 +9,15 @@
 namespace App\Http\Controllers;
 
 
+use App\Model\OrderModel;
+
 class QuizController extends Controller
 {
     public function index(){
-        $today_data = '5月4日';
+
+        $today_data = date("m月d日");
+
+        $total_money = OrderModel::where('day',20170504)->sum('cost');
         $total_money = 6000006;
         $up_prop = '71%';
         $down_prop = '29%';
