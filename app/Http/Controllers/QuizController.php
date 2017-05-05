@@ -13,7 +13,7 @@ class QuizController extends Controller
 {
     public function index(){
         $today_data = '5月4日';
-        $total_money = 600;
+        $total_money = 6000006;
         $up_prop = '71%';
         $down_prop = '29%';
         $up_profit = '1:1.40';

@@ -11,6 +11,10 @@
             width: 100%;
             height: 500px;
         }
+        .lowtext {
+            font-size: 18px;
+            color: #bababa;
+        }
     </style>
 @endsection
 
@@ -33,7 +37,7 @@
     </div>
     <!-- //breadcrumbs -->
     <!-- Index diagram -->
-    <div class="gallery w3-agileits">
+    <div class="gallery w3-agileits" style="font-family: Arial">
         <div class="container">
             {{--<div class="trade">--}}
                 {{--<!-- inta-day data -->--}}
@@ -41,29 +45,41 @@
                 {{--<!-- //inta-day data -->--}}
                 {{--<div class="clearfix"></div>--}}
             {{--</div>--}}
-            <div class="sh000001" style="margin: 0 auto;text-align: center">
-                <div class="textLable">{{$today_data}}总奖金池</div>
-                <div class="totalMoney">
-                    <img src="/images/gold.jpg" width="32"><span>{{$total_money}}</span>
+            <div class="sh000001">
+                <div class="col-md-12 text-center">
+                    <span class="lowtext">{{$today_data}}总奖金池</span>
                 </div>
-                <div class="proportion" style="width: 500px">
-                    <span style="display: inline">看涨</span>
-                    <div class="progress" style="display: inline">
-                        <div class="progress-bar progress-bar-danger" style="width: 71%">
-                            <span class="sr-only">up</span>
+                <div class="col-md-12 text-center">
+                    <img src="/images/gold_32.png" style="vertical-align:text-bottom">
+                    <span style="margin-left: 10px; font-size: 40px; font-weight:bold;color:#d9534f">{{$total_money}}</span>
+                </div>
+                <div class="col-md-12 text-center">
+                    <span style="width: 15%;display:inline-block;color:#d9534f;font-size: 16px;font-weight: bold;">
+                        看涨
+                    </span>
+                    <span style="width: 60%;display:inline-block;vertical-align:text-bottom">
+                        <div class="progress" style="margin-bottom:0;">
+                            <div class="progress-bar progress-bar-danger" style="width: 71%">
+                                <span class="sr-only">up</span>
+                            </div>
+                            <div class="progress-bar progress-bar-success" style="width: 29%">
+                                <span class="sr-only">down</span>
+                            </div>
                         </div>
-                        <div class="progress-bar progress-bar-success" style="width: 29%">
-                            <span class="sr-only">down</span>
-                        </div>
-                    </div>
-                    <span style="display: inline">看跌</span>
-                    <div class="clearfix"></div>
+                    </span>
+                    <span style="width: 15%;display:inline-block;color:#5cb85c;font-size: 16px;font-weight: bold;">
+                        看跌
+                    </span>
                 </div>
-                <div class="textLable">
-                    <span>{{$up_prop}}</span><span>VS</span><span>{{$down_prop}}</span>
+                <div class="col-md-12 text-center" style="margin: 5px 0;">
+                        <span class="lowtext" style="width: 15%;display:inline-block">{{$up_prop}}</span>
+                        <span class="lowtext" style="width: 60%;display:inline-block">VS</span>
+                        <span class="lowtext" style="width: 15%;display:inline-block">{{$down_prop}}</span>
                 </div>
-                <div class="profit">
-                    <span>{{$up_profit}}</span><span>收益比</span><span>{{$down_profit}}</span>
+                <div class="col-md-12" style="margin: 20px 0;">
+                    <span class="text-right" style="width: 40%;display:inline-block;color:#d9534f;font-size: 26px;font-weight: bold;">{{$up_profit}}</span>
+                    <span class="text-center" style="width: 20%;display:inline-block;color:#444;font-size: 20px;font-weight: bold;">收益比</span>
+                    <span class="text-left" style="width: 35%;display:inline-block;color:#5cb85c;font-size: 26px;font-weight: bold;">{{$down_profit}}</span>
                 </div>
             </div>
         </div>
