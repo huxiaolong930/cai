@@ -37,7 +37,7 @@
     </div>
     <!-- //breadcrumbs -->
     <!-- Index diagram -->
-    <div class="gallery w3-agileits" style="font-family: Arial">
+    <div class="gallery w3-agileits" style="font-family: Arial;">
         <div class="container">
             {{--<div class="trade">--}}
                 {{--<!-- inta-day data -->--}}
@@ -77,9 +77,22 @@
                         <span class="lowtext" style="width: 15%;display:inline-block">{{$down_prop}}</span>
                 </div>
                 <div class="col-md-12" style="margin: 20px 0;">
-                    <span class="text-right" style="width: 40%;display:inline-block;color:#d9534f;font-size: 26px;font-weight: bold;">{{$up_profit}}</span>
-                    <span class="text-center" style="width: 20%;display:inline-block;color:#444;font-size: 20px;font-weight: bold;">收益比</span>
-                    <span class="text-left" style="width: 35%;display:inline-block;color:#5cb85c;font-size: 26px;font-weight: bold;">{{$down_profit}}</span>
+                    <span class="text-right" style="width: 35%;display:inline-block;color:#d9534f;font-size: 26px;font-weight: bold;">{{$up_profit}}</span>
+                    <span class="text-center" style="width: 30%;display:inline-block;color:#444;font-size: 20px;font-weight: bold;">收益比</span>
+                    <span class="text-left" style="width: 30%;display:inline-block;color:#5cb85c;font-size: 26px;font-weight: bold;">{{$down_profit}}</span>
+                </div>
+                <div class="col-md-12">
+                    <span class="text-right" style="width: 30%;display:inline-block;color:#d9534f;font-size: 26px;font-weight: bold;">
+                        <img src="/images/gold_32.png" width="64px" style="vertical-align:text-bottom">
+                    </span>
+                    <span class="text-center" style="width: 40%;display:inline-block;">
+                        <div style="font-size: 12px;">距离竞猜结束还剩</div>
+                        <div style="color:#D9534F;font-size: 20px; font-weight: bold;">37:25:08</div>
+                        <div style="font-size: 12px;">05月08日13:00截止</div>
+                    </span>
+                    <span class="text-left" style="width: 25%;display:inline-block;color:#5cb85c;font-size: 26px;font-weight: bold;">
+                        <img src="/images/gold_32.png" width="64px" style="vertical-align:text-bottom">
+                    </span>
                 </div>
             </div>
         </div>

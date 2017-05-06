@@ -5,7 +5,7 @@
     @include('layouts.partials.htmlheader')
 @show
 
-<body class="bg">
+<body class="bg" style="min-width:350px">
 
 <!-- Main content -->
 <section class="content">
