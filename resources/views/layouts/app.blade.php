@@ -18,6 +18,10 @@
         @include('layouts.partials.login')
     @endif
 
+    @yield('main-banner')
+
+    @include('layouts.partials.breadcrumbs')
+
     @yield('main-content')
 </section><!-- /.content -->
 

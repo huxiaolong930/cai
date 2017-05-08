@@ -11,6 +11,42 @@
 |
 */
 
+$app->get('/', "QuizController@index");
+
+$app->get('/trade', function () {
+    return view("trade");
+});
+
+$app->get('/ucenter', function () {
+    return view("ucenter");
+});
+
+// 注册
+
+$app->post('/reg', "UserController@reg");
+
+// 重置密码
+$app->get('/forgetpwd', function () {
+    return view("forgetpwd");
+});
+$app->post('/forgetpwd', "UserController@forgetpwd");
+$app->get('/resetpwd', function () {
+    return view("resetpwd");
+});
+$app->post('/resetpwd', "UserController@resetpwd");
+
+
+//==================================
+$app->get('/user', "UserController@index");
+$app->get('/save', "UserController@save");
+
+//===================================
+$app->get('/index', function () {
+    $is_login = 1;
+    return view("index",compact('is_login'));
+});
+
+/*
 $app->get('/', function () {
     $is_login = 1;
     return view("index",compact('is_login'));
@@ -44,16 +80,4 @@ $app->get('/single', function () {
     return view("single");
 });
 
-$app->get('/trade', function () {
-    return view("trade");
-});
-
-$app->get('/quiz', "QuizController@index");
-
-$app->get('/ucenter', function () {
-    return view("ucenter");
-});
-
-$app->get('/user', "UserController@index");
-$app->get('/save', "UserController@save");
-$app->get('/reg', "UserController@reg");
+*/

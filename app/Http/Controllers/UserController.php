@@ -10,6 +10,7 @@ namespace App\Http\Controllers;
 
 
 use App\Model\UserModel;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -33,7 +34,7 @@ class UserController extends Controller
             return 'faild';
     }
 
-    public function reg()
+    public function reg(Request $request)
     {
 /*  验证码发送之后的返回值$result
 成功：
@@ -76,6 +77,46 @@ class UserController extends Controller
 }
 */
 
+        $input = $request->all();
+
+        if (!isset($input['Phone']) || !isset($input['Password']) || !isset($input['Confirm']) || !isset($input['Phonecode']) ){
+            return redirect('/');
+        }
+
+        $phone = $input['Phone'];
+        $password = $input['Password'];
+        $confirm = $input['Confirm'];
+        $phonecode = $input['Phonecode'];
+
+        if ($password != $confirm || strlen($password) < 6){
+            return redirect('/');
+        }
+        $u = UserModel::where('phone',$phone)->select('phone','phone_code','updated_at')->get();
+        $c = count($u);
+        if ($c != 1){
+            return redirect('/');
+        }
+
+        $pre_phone = $u[0]['phone'];
+        $pre_phone_code = $u[0]['phone_code'];
+        $pre_updated_at = $u[0]['updated_at'];
+
+        if ($phonecode !=$pre_phone_code){
+            return redirect('/');
+        }
+
+
+
+
+        echo time();
+        echo "<br>";
+        echo date('c');
+        echo "<br>";
+        echo strtotime($pre_updated_at);
+        echo "<br>";
+        echo (time()-strtotime($pre_updated_at));
+        echo "<br>";
+        return $pre_updated_at;
 
         require_once(__DIR__ . '/../../Api/yunpian/YunpianAutoload.php');
         $smsOperator = new \SmsOperator();
@@ -88,6 +129,15 @@ class UserController extends Controller
 
         return $result;
 
+    }
+
+    public function forgetpwd(){
+        return redirect('resetpwd');
+    }
+
+    public function resetpwd(){
+        //重置成功后在前端转到主页
+        return 'is reset';
     }
 
 }

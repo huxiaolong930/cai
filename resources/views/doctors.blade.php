@@ -4,24 +4,14 @@
 	Doctors
 @endsection
 
-@section('main-content')
-<!-- banner -->
-<div class="inner-banner-agileits-w3layouts">
-</div>
-<!-- //banner -->
-<!-- breadcrumbs -->
-<div class="w3l_agileits_breadcrumbs">
-   <div class="container">
-		<div class="w3l_agileits_breadcrumbs_inner">
-			<ul>
-				<li><a href="main.html">Home</a><span>«</span></li>
-
-				<li>Doctors</li>
-				</ul>
-		</div>
+@section('main-banner')
+	<!-- banner -->
+	<div class="inner-banner-agileits-w3layouts">
 	</div>
-</div>
-<!-- //breadcrumbs -->
+	<!-- //banner -->
+@endsection
+
+@section('main-content')
 <!-- Doctors -->
 <div class="blog" id="blog">
 	<div class="container">

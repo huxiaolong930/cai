@@ -20,5 +20,10 @@
     <link href="/css/font-poppins.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/css/font-roboto.css" rel="stylesheet" type="text/css" media="all" />
     <!-- //web-fonts -->
+
+    <!-- breadcrumbs marquee -->
+    <link href="/css/jquery.marquee.css" type="text/css" rel="stylesheet" media="all">
+    <!-- //breadcrumbs marquee -->
+
     @yield('self-style')
 </head>

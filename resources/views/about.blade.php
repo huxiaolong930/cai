@@ -4,24 +4,14 @@
     About
 @endsection
 
-@section('main-content')
+@section('main-banner')
     <!-- banner -->
     <div class="inner-banner-agileits-w3layouts">
     </div>
     <!-- //banner -->
-    <!-- breadcrumbs -->
-    <div class="w3l_agileits_breadcrumbs">
-        <div class="container">
-            <div class="w3l_agileits_breadcrumbs_inner">
-                <ul>
-                    <li><a href="main.html">Home</a><span>«</span></li>
+@endsection
 
-                    <li>About</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <!-- //breadcrumbs -->
+@section('main-content')
     <!-- who we are -->
     <div class="who-we-w3ls">
         <div class="container">

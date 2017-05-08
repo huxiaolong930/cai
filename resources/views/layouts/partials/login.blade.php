@@ -1,9 +1,9 @@
 <section class="header-w3ls">
     <button id="trigger-overlay" type="button"><i class="fa fa-bars" aria-hidden="true"></i></button>
     <div class="bottons-agileits-w3layouts">
-        <a class="page-scroll" href="#myModal2" data-toggle="modal"><i class="fa fa-sign-in" aria-hidden="true"></i>Login</a>.
+        <a class="page-scroll" href="#myModal2" data-toggle="modal"><i class="fa fa-sign-in" aria-hidden="true"></i>登录</a>.
         <a class="page-scroll" href="#myModal3" data-toggle="modal"><i class="fa fa-pencil-square-o"
-                                                                       aria-hidden="true"></i>Register</a>
+                                                                       aria-hidden="true"></i>注册</a>
     </div>
     <h1><a href="/">Clinical Care</a></h1>
     <div class="clearfix"></div>
@@ -20,25 +20,24 @@
             <div class="modal-body login-page "><!-- login-page -->
                 <div class="login-top sign-top">
                     <div class="agileits-login">
-                        <h5>Login</h5>
+                        <h5>登录</h5>
                         <form action="#" method="post">
-                            <input type="email" class="email" name="Email" placeholder="Email" required=""/>
-                            <input type="password" class="password" name="Password" placeholder="Password"
-                                   required=""/>
-                            <div class="wthree-text">
-                                <ul>
-                                    <li>
-                                        <label class="anim">
-                                            <input type="checkbox" class="checkbox">
-                                            <span> Remember me ?</span>
-                                        </label>
-                                    </li>
-                                    <li><a href="#">Forgot password?</a></li>
-                                </ul>
+                            <input type="email" class="email" name="Email" placeholder="手机号码" required=""/>
+                            <input type="password" class="password" name="Password" placeholder="密码" required=""/>
+                            <div>
+                                <span class="text-left" style="width: 55%;display:inline-block">
+                                    <label class="anim">
+                                        <input type="checkbox" class="checkbox">
+                                        <span> Remember me ?</span>
+                                    </label>
+                                </span>
+                                <span class="text-right" style="width: 40%;display:inline-block">
+                                    <a href="javascript:;" class="get-code"  onclick="getCode(this)">忘记密码？</a>
+                                </span>
                                 <div class="clearfix"></div>
                             </div>
                             <div class="w3ls-submit">
-                                <input type="submit" value="LOGIN">
+                                <input type="submit" value="登录">
                             </div>
                         </form>
 
@@ -50,35 +49,43 @@
 </div>
 <!-- //modal -->
 <!-- Register modal -->
-<div class="modal about-modal w3-agileits fade" id="myModal3" tabindex="-1" role="dialog">
+<div class="modal about-modal w3-agileits fade" id="myModal3" tabindex="-1" role="dialog" style="min-width: 350px;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
             </div>
-            <div class="modal-body login-page "><!-- login-page -->
+            <div class="modal-body login-page "><!-- reg-page -->
                 <div class="login-top sign-top">
                     <div class="agileits-login">
-                        <h5>Register</h5>
-                        <form action="#" method="post">
-                            <input type="text" name="Username" placeholder="Username" required=""/>
-                            <input type="email" name="Email" placeholder="Email" required=""/>
-                            <button onclick="getCode()">获取验证码</button>
-                            <input type="password" name="Password" placeholder="Password" required=""/>
-                            <div class="wthree-text">
-                                <ul>
-                                    <li>
-                                        <label class="anim">
-                                            <input type="checkbox" class="checkbox">
-                                            <span> I accept the terms of use</span>
-                                        </label>
-                                    </li>
-                                </ul>
+                        <h5>用户注册</h5>
+                        <form action="/reg" method="post">
+                            <input type="text" name="Phone" placeholder="手机号码" required=""/>
+                            <input type="password" name="Password" placeholder="设置密码" required=""/>
+                            <input type="password" name="Confirm" placeholder="确认密码" required=""/>
+                            <div>
+                                <span class="text-left" style="width: 55%;display:inline-block">
+                                    <input type="text" name="Phonecode" placeholder="手机验证码" required=""/>
+                                </span>
+                                <span class="text-right" style="width: 40%;display:inline-block">
+                                    <a href="javascript:;" class="get-code"  onclick="getCode(this)">获取验证码</a>
+                                </span>
                                 <div class="clearfix"></div>
                             </div>
+                            {{--<div class="wthree-text">--}}
+                                {{--<ul>--}}
+                                    {{--<li>--}}
+                                        {{--<label class="anim">--}}
+                                            {{--<input type="checkbox" class="checkbox">--}}
+                                            {{--<span> I accept the terms of use</span>--}}
+                                        {{--</label>--}}
+                                    {{--</li>--}}
+                                {{--</ul>--}}
+                                {{--<div class="clearfix"></div>--}}
+                            {{--</div>--}}
                             <div class="w3ls-submit">
-                                <input type="submit" value="Register">
+                                <input type="submit" value="立即注册">
                             </div>
                         </form>
 
@@ -90,7 +97,7 @@
 </div>
 <!-- //modal -->
 <script>
-    function getCode() {
-
+    function getCode(obj) {
+        $(obj).text('重新获取(59)');
     }
 </script>

@@ -4,7 +4,7 @@
     Home
 @endsection
 
-@section('main-content')
+@section('main-banner')
     <!-- banner -->
     <div class="banner-silder">
         <div class="callbacks_container">
@@ -53,6 +53,9 @@
         <div class="clearfix"></div>
     </div>
     <!-- //banner -->
+@endsection
+
+@section('main-content')
     <!-- banner-bottom -->
     <div class="banner-bottom">
         <div class="bnr-btm-grids-agileits">

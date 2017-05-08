@@ -18,15 +18,26 @@
 <script type='text/javascript' src='/js/jquery.easing.1.3.js'></script>
 <!-- //banner -->
 <script type="text/javascript">
-    jQuery(document).ready(function($) {
-        $(".scroll").click(function(event){
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
             event.preventDefault();
-            $('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+            $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1000);
         });
     });
 </script>
 <!--js for bootstrap working-->
 <script src="/js/bootstrap.js"></script>
 <!-- //for bootstrap working -->
+
+<!-- breadcrumbs marquee -->
+<script src="/js/jquery.marquee.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#newsMarquee").marquee({
+            pauseSpeed: 5000
+        });
+    });
+</script>
+<!-- //breadcrumbs marquee -->
 
 @yield('self-script')
