@@ -34,8 +34,12 @@ $app->get('/resetpwd', function () {
 });
 $app->post('/resetpwd', "UserController@resetpwd");
 
-// 验证码
+// 获取验证码
 $app->get('/getcaptcha', "UserController@getcaptcha");
+
+// 获取手机码
+$app->get('/getPhoneCode', "UserController@getPhoneCode");
+
 
 
 //==================================

@@ -76,7 +76,3 @@
         </div>
     </div>
 @endsection
-
-@section('captcha')
-    {{$captcha}}
-@endsection

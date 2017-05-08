@@ -21,26 +21,7 @@ class UserController extends Controller
         return $all;
     }
 
-    public function save()
-    {
-        $u = new UserModel();
-        $u->name = 'hxl';
-        $u->pwd = 'toor';
-        $u->iphone = '456';
-
-        $r = $u->save();
-        if ($r)
-            return 'suc';
-        else
-            return 'faild';
-    }
-
     public function getPhoneCode(Request $request){
-        // 非正常操作
-        if (Session::get('evil') == null){
-            return redirect('/');
-        }
-
         $input = $request->all();
         if (!isset($input['Phone']) ){
             return redirect('/');
@@ -78,7 +59,7 @@ class UserController extends Controller
         require_once(__DIR__ . '/../../Api/Yunpian/YunpianAutoload.php');
         $smsOperator = new \SmsOperator();
         $data['mobile'] = $phone;
-        $data['text'] = '【XX网】您的验证码是'.$checkCode;
+        $data['text'] = '【云片网】您的验证码是'.$checkCode;
         $result = $smsOperator->single_send($data);
 
         $result = json_encode($result);
@@ -139,7 +120,7 @@ class UserController extends Controller
     {
         $input = $request->all();
 
-        if (!isset($input['Phone']) || !isset($input['Password']) || !isset($input['Confirm']) || !isset($input['Phonecode']) ){
+        if (!isset($input['Phone']) || !isset($input['Password']) || !isset($input['Confirm']) || !isset($input['Phonecode']) || !isset($input['Captcha']) ){
             return redirect('/');
         }
 
@@ -147,6 +128,7 @@ class UserController extends Controller
         $password = $input['Password'];
         $confirm = $input['Confirm'];
         $phonecode = $input['Phonecode'];
+        $captcha = $input['Captcha'];
 
         if ($password != $confirm || strlen($password) < 6){
             return redirect('/');
@@ -162,8 +144,14 @@ class UserController extends Controller
         $pre_phone_code = $u['phone_code'];
         $pre_status = $u['status'];
         $pre_updated_at = $u['updated_at'];
+        $pre_captcha = Session::get('captcha.code');
+        $pre_captcha = strtolower($pre_captcha);
 
-        if ($phonecode !=$pre_phone_code){
+        if ($captcha != $pre_captcha){
+            return redirect('/');
+        }
+
+        if ($phonecode != $pre_phone_code){
             return redirect('/');
         }
 
@@ -182,7 +170,7 @@ class UserController extends Controller
         $u->status = 2;
         $u->save();
 
-        return true;
+        return redirect('ucenter');
 
     }
 

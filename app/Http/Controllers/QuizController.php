@@ -31,9 +31,7 @@ class QuizController extends Controller
         $down_prop = '29%';
         $up_profit = '1:1.40';
         $down_profit = '1:3.50';
-        $captcha = Session::get('captcha.code');
-        //$captcha = $_SESSION['captcha']['code'];
-        return view("quiz", compact('today_data','total_money','up_prop','down_prop','up_profit','down_profit','captcha'));
+        return view("quiz", compact('today_data','total_money','up_prop','down_prop','up_profit','down_profit'));
     }
 
     public function bet(){

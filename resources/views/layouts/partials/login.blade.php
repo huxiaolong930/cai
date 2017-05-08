@@ -23,8 +23,8 @@
                     <div class="agileits-login">
                         <h5>登录</h5>
                         <form action="#" method="post">
-                            <input type="email" class="email" name="Email" placeholder="手机号码" required=""/>
-                            <input type="password" class="password" name="Password" placeholder="密码" required=""/>
+                            <input type="text" name="Phone" placeholder="手机号码" required=""/>
+                            <input type="password" name="Password" placeholder="密码" required=""/>
                             <div>
                                 <span class="text-left" style="width: 55%;display:inline-block">
                                     <label class="anim">
@@ -33,7 +33,7 @@
                                     </label>
                                 </span>
                                 <span class="text-right" style="width: 40%;display:inline-block">
-                                    <a href="javascript:;" class="get-code" onclick="getCode(this)">忘记密码？</a>
+                                    <a href="/forgetpwd" >忘记密码？</a>
                                 </span>
                                 <div class="clearfix"></div>
                             </div>
@@ -62,14 +62,15 @@
                     <div class="agileits-login">
                         <h5>用户注册</h5>
                         <form action="/reg" method="post">
-                            <input type="text" name="Phone" placeholder="手机号码" required=""/>
+                            <input type="text" id="regPhone" name="Phone" placeholder="手机号码" required=""/>
                             <input type="password" name="Password" placeholder="设置密码" required=""/>
                             <input type="password" name="Confirm" placeholder="确认密码" required=""/>
                             <div>
                                 <span class="text-left" style="width: 55%;display:inline-block">
-                                    <input type="text" name="AuthCode" placeholder="验证码" required=""/>
+                                    <input type="text" name="Captcha" placeholder="验证码" required=""/>
                                 </span>
                                 <span class="text-right" style="width: 40%;display:inline-block">
+                                    @yield('captcha')
                                     <?php
                                     session_start();
                                     $_SESSION = array();
@@ -81,7 +82,7 @@
 
                                     echo '<img width="90px" src="' . $_SESSION['captcha']['image_src'] . '" alt="">';
                                     ?>
-                                        @yield('captcha')
+
                                 </span>
                                 <div class="clearfix"></div>
                             </div>
@@ -90,7 +91,7 @@
                                     <input type="text" name="Phonecode" placeholder="手机验证码" required=""/>
                                 </span>
                                 <span class="text-right" style="width: 40%;display:inline-block">
-                                    <a href="javascript:;" class="get-code" onclick="getCode(this)">获取验证码</a>
+                                    <a href="javascript:;" onclick="getCode(this)">获取验证码</a>
                                 </span>
                                 <div class="clearfix"></div>
                             </div>
@@ -119,6 +120,10 @@
 <!-- //modal -->
 <script>
     function getCode(obj) {
-        $(obj).text('重新获取(59)');
+        var regPhone = $('#regPhone').val();
+        //todo:ajax发送验证码
+
+        $(obj).text('手机验证码已发送');
+        $(obj).removeAttr("onclick");
     }
 </script>
