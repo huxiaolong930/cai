@@ -77,6 +77,6 @@
     </div>
 @endsection
 
-
-@section('self-script')
+@section('captcha')
+    {{$captcha}}
 @endsection

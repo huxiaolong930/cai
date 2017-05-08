@@ -22,7 +22,6 @@ $app->get('/ucenter', function () {
 });
 
 // 注册
-
 $app->post('/reg', "UserController@reg");
 
 // 重置密码
@@ -35,6 +34,9 @@ $app->get('/resetpwd', function () {
 });
 $app->post('/resetpwd', "UserController@resetpwd");
 
+// 验证码
+$app->get('/getcaptcha', "UserController@getcaptcha");
+
 
 //==================================
 $app->get('/user', "UserController@index");
@@ -45,6 +47,15 @@ $app->get('/index', function () {
     $is_login = 1;
     return view("index",compact('is_login'));
 });
+
+$app->get('/test', "UserController@test");
+
+//$app->get('/test', function () {
+//    return view("test");
+//});
+//$app->post('/test', function () {
+//    return 2;
+//});
 
 /*
 $app->get('/', function () {

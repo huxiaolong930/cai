@@ -10,10 +10,18 @@ namespace App\Http\Controllers;
 
 
 use App\Model\OrderModel;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class QuizController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
+
+        // 防止通过url暴力攻击
+        $p = $request->path();
+        if ($p == '/' && Session::get('evil') == null){
+            Session::put('evil','no');
+        }
 
         $today_data = date("m月d日");
 
@@ -23,7 +31,9 @@ class QuizController extends Controller
         $down_prop = '29%';
         $up_profit = '1:1.40';
         $down_profit = '1:3.50';
-        return view("quiz", compact('today_data','total_money','up_prop','down_prop','up_profit','down_profit'));
+        $captcha = Session::get('captcha.code');
+        //$captcha = $_SESSION['captcha']['code'];
+        return view("quiz", compact('today_data','total_money','up_prop','down_prop','up_profit','down_profit','captcha'));
     }
 
     public function bet(){
