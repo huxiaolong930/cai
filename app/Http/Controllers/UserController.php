@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Model\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -23,10 +24,20 @@ class UserController extends Controller
 
     public function getPhoneCode(Request $request){
         $input = $request->all();
-        if (!isset($input['Phone']) ){
+        if (!isset($input['regPhone']) || !isset($input['regCaptcha'])){
             return redirect('/');
         }
-        $phone = $input['Phone'];
+        $phone = $input['regPhone'];
+        $captcha = $input['regCaptcha'];
+        $captcha = strtolower($captcha);
+
+        $pre_captcha = Session::get('captcha.code');
+        $pre_captcha = strtolower($pre_captcha);
+
+        if ($captcha != $pre_captcha){
+            return json_encode(Config::get('statusCode.statusCaptchaError'));
+        }
+
         $checkCode= rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
 
         $u = UserModel::where('phone',$phone)->select('phone_code','status','updated_at')->get();
@@ -48,7 +59,7 @@ class UserController extends Controller
             }
             else{
                 //之前注册成功了
-                return redirect('/');
+                return json_encode(Config::get('statusCode.statusAlreadyReg'));
             }
         }
         else{
@@ -67,11 +78,11 @@ class UserController extends Controller
 
         if ($result['success'] == true && $result['statusCode'] == 200){
             // 发送成功
-            return true;
+            return json_encode(Config::get('statusCode.statusGetPhoneCodeSuc'));
         }
         else{
             //发送失败
-            return false;
+            return json_encode(Config::get('statusCode.statusGetPhoneCodeFail'));
         }
 
 /*  验证码发送之后的返回值$result
@@ -129,9 +140,15 @@ class UserController extends Controller
         $confirm = $input['Confirm'];
         $phonecode = $input['Phonecode'];
         $captcha = $input['Captcha'];
+        $captcha = strtolower($captcha);
 
+        //密码不一致
         if ($password != $confirm || strlen($password) < 6){
-            return redirect('/');
+            return json_encode(Config::get('statusCode.statusPwdNotSame'));
+        }
+        //密码太简单
+        if (strlen($password) < 6){
+            return json_encode(Config::get('statusCode.statusPwdSimple'));
         }
         $u = UserModel::where('phone',$phone)->select('phone_code','status','updated_at')->get();
         $c = count($u);
@@ -148,21 +165,21 @@ class UserController extends Controller
         $pre_captcha = strtolower($pre_captcha);
 
         if ($captcha != $pre_captcha){
-            return redirect('/');
+            return json_encode(Config::get('statusCode.statusCaptchaError'));
         }
 
         if ($phonecode != $pre_phone_code){
-            return redirect('/');
+            return json_encode(Config::get('statusCode.statusGetPhoneCodeError'));
         }
 
         if ($pre_status != 1){
-            return redirect('/');
+            return json_encode(Config::get('statusCode.statusAlreadyReg'));
         }
 
-        // 验证码30分钟后过期
+        // 手机码30分钟后过期
         $sec = time()-strtotime($pre_updated_at);
         if ($sec > 30*60){
-            return redirect('/');
+            return json_encode(Config::get('statusCode.statusPhoneCodeInvalid'));
         }
 
         //注册信息写入数据库
@@ -170,6 +187,7 @@ class UserController extends Controller
         $u->status = 2;
         $u->save();
 
+        //注册成功，转到个人中心
         return redirect('ucenter');
 
     }

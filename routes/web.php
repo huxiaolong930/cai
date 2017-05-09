@@ -38,7 +38,7 @@ $app->post('/resetpwd', "UserController@resetpwd");
 $app->get('/getcaptcha', "UserController@getcaptcha");
 
 // 获取手机码
-$app->get('/getPhoneCode', "UserController@getPhoneCode");
+$app->post('/getPhoneCode', "UserController@getPhoneCode");
 
 
 

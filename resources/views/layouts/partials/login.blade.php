@@ -67,10 +67,9 @@
                             <input type="password" name="Confirm" placeholder="确认密码" required=""/>
                             <div>
                                 <span class="text-left" style="width: 55%;display:inline-block">
-                                    <input type="text" name="Captcha" placeholder="验证码" required=""/>
+                                    <input type="text" id="regCaptcha" name="Captcha" placeholder="验证码" required=""/>
                                 </span>
                                 <span class="text-right" style="width: 40%;display:inline-block">
-                                    @yield('captcha')
                                     <?php
                                     session_start();
                                     $_SESSION = array();
@@ -88,12 +87,15 @@
                             </div>
                             <div>
                                 <span class="text-left" style="width: 55%;display:inline-block">
-                                    <input type="text" name="Phonecode" placeholder="手机验证码" required=""/>
+                                    <input type="text" name="Phonecode" placeholder="手机码" required=""/>
                                 </span>
                                 <span class="text-right" style="width: 40%;display:inline-block">
-                                    <a href="javascript:;" onclick="getCode(this)">获取验证码</a>
+                                    <a href="javascript:;" onclick="getCode(this)">获取手机码</a>
                                 </span>
                                 <div class="clearfix"></div>
+                            </div>
+                            <div>
+                                <span id="errorMsg"></span>
                             </div>
                             {{--<div class="wthree-text">--}}
                             {{--<ul>--}}
@@ -121,9 +123,92 @@
 <script>
     function getCode(obj) {
         var regPhone = $('#regPhone').val();
-        //todo:ajax发送验证码
+        var regCaptcha = $('#regCaptcha').val();
+        data.push({'Phone': regPhone, 'captcha': regCaptcha});
+        $.ajax({
+            url: "/getPhoneCode",
+            timeout: 3000,
+            dataType: "json",
+            data: data,
+            async: true,
+            type: "POST",
+            beforeSend: function () {
+                $(obj).text('手机码发送中...');
+                $('#errorMsg').text('');
+            },
+            success: function (res) {
+                //手机码获取成功
+                if (res.code == '210') {
+                    $(obj).text(res.msg);
+                    $(obj).removeAttr("onclick");
+                }
+                //手机码获取失败
+                else if (res.code == '410') {
+                    $(obj).text('重新获取手机码');
+                }
+                else{
+                    $('#errorMsg').text(res.msg);
+                }
+            },
+            complete: function (XMLHttpRequest, status) {
+                if (status == 'success') {
+                    //成功
+                }
+                else if (status == 'timeout') {
+                    $(obj).text('重新获取手机码');
+                }
+                else {
+                    $(obj).text('重新获取手机码');
+                }
 
-        $(obj).text('手机验证码已发送');
-        $(obj).removeAttr("onclick");
+            }
+        });
+    }
+
+    function reg() {
+
+        var data = $("#formquery").serializeArray();
+
+        var regPhone = $('#regPhone').val();
+        var regCaptcha = $('#regCaptcha').val();
+        data.push({'Phone': regPhone, 'captcha': regCaptcha});
+        $.ajax({
+            url: "/getPhoneCode",
+            timeout: 3000,
+            dataType: "json",
+            data: data,
+            async: true,
+            type: "POST",
+            beforeSend: function () {
+                $(obj).text('手机码发送中...');
+                $('#errorMsg').text('');
+            },
+            success: function (res) {
+                //手机码获取成功
+                if (res.code == '210') {
+                    $(obj).text(res.msg);
+                    $(obj).removeAttr("onclick");
+                }
+                //手机码获取失败
+                else if (res.code == '410') {
+                    $(obj).text('重新获取手机码');
+                }
+                else{
+                    $('#errorMsg').text(res.msg);
+                }
+            },
+            complete: function (XMLHttpRequest, status) {
+                if (status == 'success') {
+                    //成功
+                }
+                else if (status == 'timeout') {
+                    $(obj).text('重新获取手机码');
+                }
+                else {
+                    $(obj).text('重新获取手机码');
+                }
+
+            }
+        });
     }
 </script>
