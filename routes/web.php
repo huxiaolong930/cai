@@ -19,9 +19,9 @@ $app->get('/trade', function () {
     return view("trade");
 });
 
-$app->get('/ucenter', function () {
+$app->get('/ucenter', ['as'=>'ucenter', function () {
     return view("ucenter");
-});
+}]);
 
 // 登录注册
 $app->post('/login', "UserController@login");

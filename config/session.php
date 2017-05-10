@@ -163,4 +163,87 @@ return [
 
     'http_only' => true,
 
+
+
+    /* 状态说明：
+     *     成功：2     错误：4
+     *
+     *  手机码：1
+     *  验证码：2
+     *  密码：  3
+     *  账号相关：4
+     */
+
+    //手机码1
+    'statusGetPhoneCodeSuc' => [
+        'code'=>210,
+        'msg'=>'手机码获取成功',
+    ],
+    'statusGetPhoneCodeFail'=> [
+        'code'=>410,
+        'msg'=>'手机码获取失败',
+    ],
+    'statusPhoneCodeInvalid'=> [
+        'code'=>411,
+        'msg'=>'手机码已过期',
+    ],
+    'statusGetPhoneCodeError'=> [
+        'code'=>412,
+        'msg'=>'手机码错误',
+    ],
+
+
+    //验证码2
+    'statusCaptchaError' => [
+        'code'=>420,
+        'msg'=>'验证码错误',
+    ],
+    'statusCaptchaInvalid' => [
+        'code'=>421,
+        'msg'=>'验证码已过期',
+    ],
+
+    //密码3
+    'statusPwdNotSame' => [
+        'code'=>430,
+        'msg'=>'密码不一致',
+    ],
+    'statusPwdSimple' => [
+        'code'=>431,
+        'msg'=>'密码太简单',
+    ],
+
+
+    //注册登录相关4
+    'statusRegSuc' => [
+        'code'=>240,
+        'msg'=>'恭喜你，注册成功，请登录',
+    ],
+    'statusLoginSuc' => [
+        'code'=>241,
+        'msg'=>'登录成功',
+    ],
+    'statusAlreadyReg' => [
+        'code'=>440,
+        'msg'=>'该手机号已注册，请直接登录',
+    ],
+    'statusNotReg' => [
+        'code'=>441,
+        'msg'=>'该账号还未注册，请先注册',
+    ],
+    'statusAccountDisabled' => [
+        'code'=>442,
+        'msg'=>'账号已被禁用',
+    ],
+    'statusAccountOrPwdError' => [
+        'code'=>443,
+        'msg'=>'账号或密码错误',
+    ],
+
+    //严重错误，发生必须修复
+    'statusBigError' => [
+        'code'=>999,
+        'msg'=>'发生严重错误！',
+    ],
+
 ];

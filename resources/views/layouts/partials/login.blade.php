@@ -5,8 +5,6 @@
                                                                        aria-hidden="true"></i>登录</a>.
         <a class="page-scroll" href="#myModal3" data-toggle="modal"><i class="fa fa-pencil-square-o"
                                                                        aria-hidden="true"></i>注册</a>
-        <a class="page-scroll" href="#myModal4" data-toggle="modal"><i class="fa fa-pencil-square-o"
-                                                                       aria-hidden="true"></i>找回密码</a>
     </div>
     <h1><a href="/">Clinical Care</a></h1>
     <div class="clearfix"></div>
@@ -24,7 +22,7 @@
                 <div class="login-top sign-top">
                     <div class="agileits-login">
                         <h5>登录</h5>
-                        <form action="#" method="post">
+                        <form id="loginForm" name="loginForm" onsubmit="return false;">
                             <input type="text" name="Phone" placeholder="手机号码" required=""/>
                             <input type="password" name="Password" placeholder="密码" required=""/>
                             <div>
@@ -55,13 +53,17 @@
                                     {{--</label>--}}
                                 {{--</span>--}}
                                 <span class="text-left" style="width: 40%;display:inline-block">
-                                    <a class="page-scroll" href="#myModal4" data-toggle="modal"><i class="fa fa-pencil-square-o"
-                                                                                                   aria-hidden="true"></i>忘记密码？</a>
+                                    <a class="page-scroll" href="#myModal4" data-toggle="modal"><i class="fa fa-frown-o"
+                                                                                                   aria-hidden="true"></i> 忘记密码？</a>
                                 </span>
                                 <div class="clearfix"></div>
                             </div>
+                            <div>
+                                <span id="loginMsg"></span>
+                            </div>
                             <div class="w3ls-submit">
-                                <input type="submit" value="登录">
+                                {{--<input type="submit" value="登录">--}}
+                                <button onclick="login(this)">登录</button>
                             </div>
                         </form>
 
@@ -84,7 +86,7 @@
                 <div class="login-top sign-top">
                     <div class="agileits-login">
                         <h5>用户注册</h5>
-                        <form action="/reg" method="post">
+                        <form id="regForm" name="regForm" onsubmit="return false;">
                             <input type="text" id="regPhone" name="Phone" placeholder="手机号码" required=""/>
                             <input type="password" name="Password" placeholder="设置密码" required=""/>
                             <input type="password" name="Confirm" placeholder="确认密码" required=""/>
@@ -109,7 +111,7 @@
                                 <div class="clearfix"></div>
                             </div>
                             <div>
-                                <span id="errorMsg"></span>
+                                <span id="regMsg"></span>
                             </div>
                             {{--<div class="wthree-text">--}}
                             {{--<ul>--}}
@@ -123,7 +125,8 @@
                             {{--<div class="clearfix"></div>--}}
                             {{--</div>--}}
                             <div class="w3ls-submit">
-                                <input type="submit" value="立即注册">
+                                {{--<input type="submit" value="立即注册">--}}
+                                <button onclick="reg(this)">立即注册</button>
                             </div>
                         </form>
 
@@ -186,30 +189,36 @@
     function getCode(obj) {
         var regPhone = $('#regPhone').val();
         var regCaptcha = $('#regCaptcha').val();
-        data.push({'Phone': regPhone, 'captcha': regCaptcha});
+        if (regPhone == '' || regCaptcha == ''){
+            $('#regMsg').text('手机号和验证码不能为空');
+            return;
+        }
+        var data = [];
+        data.push({'name': 'regPhone', 'value': regPhone});
+        data.push({'name': 'regCaptcha', 'value': regCaptcha});
         $.ajax({
             url: "/getPhoneCode",
-            timeout: 3000,
+            timeout: 5000,
             dataType: "json",
             data: data,
             async: true,
             type: "POST",
             beforeSend: function () {
-                $(obj).text('手机码发送中...');
-                $('#errorMsg').text('');
+                $(obj).text('手机码已发送');
+                $('#regMsg').text('');
             },
             success: function (res) {
+                $('#regMsg').text(res.msg);
                 //手机码获取成功
                 if (res.code == '210') {
-                    $(obj).text(res.msg);
                     $(obj).removeAttr("onclick");
                 }
-                //手机码获取失败
-                else if (res.code == '410') {
-                    $(obj).text('重新获取手机码');
+                //账号已存在
+                else if (res.code == '440') {
+                    $(obj).removeAttr("onclick");
                 }
                 else{
-                    $('#errorMsg').text(res.msg);
+                    //
                 }
             },
             complete: function (XMLHttpRequest, status) {
@@ -220,18 +229,18 @@
                     $(obj).text('重新获取手机码');
                 }
                 else {
-                    $(obj).text('重新获取手机码');
+                    //
                 }
 
             }
         });
     }
 
-    function reg() {
-        var data = $("#formquery").serializeArray();
+    function reg(obj) {
+        var data = $("#regForm").serializeArray();
         $.ajax({
             url: "/reg",
-            timeout: 3000,
+            timeout: 5000,
             dataType: "json",
             data: data,
             async: true,
@@ -239,17 +248,10 @@
             beforeSend: function () {
             },
             success: function (res) {
-                //手机码获取成功
-                if (res.code == '210') {
-                    $(obj).text(res.msg);
+                $('#regMsg').text(res.msg);
+                //注册成功
+                if (res.code == '240') {
                     $(obj).removeAttr("onclick");
-                }
-                //手机码获取失败
-                else if (res.code == '410') {
-                    $(obj).text('重新获取手机码');
-                }
-                else{
-                    $('#errorMsg').text(res.msg);
                 }
             },
             complete: function (XMLHttpRequest, status) {
@@ -257,6 +259,7 @@
                     //成功
                 }
                 else if (status == 'timeout') {
+                    $('#regMsg').text('请求超时！');
                 }
                 else {
                 }
@@ -265,11 +268,11 @@
         });
     }
 
-    function login() {
-        var data = $("#formquery").serializeArray();
+    function login(obj) {
+        var data = $("#loginForm").serializeArray();
         $.ajax({
             url: "/login",
-            timeout: 3000,
+            timeout: 5000,
             dataType: "json",
             data: data,
             async: true,
@@ -277,17 +280,10 @@
             beforeSend: function () {
             },
             success: function (res) {
-                //手机码获取成功
-                if (res.code == '210') {
-                    $(obj).text(res.msg);
+                $('#loginMsg').text(res.msg);
+                //登录成功
+                if (res.code == '241') {
                     $(obj).removeAttr("onclick");
-                }
-                //手机码获取失败
-                else if (res.code == '410') {
-                    $(obj).text('重新获取手机码');
-                }
-                else{
-                    $('#errorMsg').text(res.msg);
                 }
             },
             complete: function (XMLHttpRequest, status) {
@@ -295,6 +291,7 @@
                     //成功
                 }
                 else if (status == 'timeout') {
+                    $('#loginMsg').text('请求超时！');
                 }
                 else {
                 }
