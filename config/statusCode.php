@@ -7,7 +7,7 @@ return [
      *  手机码：1
      *  验证码：2
      *  密码：  3
-     *  已注册：4
+     *  账号相关：4
      */
 
     //手机码
@@ -53,6 +53,14 @@ return [
     'statusAlreadyReg' => [
         'code'=>440,
         'msg'=>'您已注册，请直接登录',
+    ],
+    'statusNotReg' => [
+        'code'=>441,
+        'msg'=>'请先注册',
+    ],
+    'statusAccountDisabled' => [
+        'code'=>442,
+        'msg'=>'账号已被禁用',
     ],
 
 

@@ -143,7 +143,7 @@ class UserController extends Controller
         $captcha = strtolower($captcha);
 
         //密码不一致
-        if ($password != $confirm || strlen($password) < 6){
+        if ($password != $confirm){
             return json_encode(Config::get('statusCode.statusPwdNotSame'));
         }
         //密码太简单
@@ -192,13 +192,133 @@ class UserController extends Controller
 
     }
 
-    public function forgetpwd(){
+    public function login(Request $request)
+    {
+        $input = $request->all();
+
+        if (!isset($input['Phone']) || !isset($input['Password'])|| !isset($input['Captcha']) ){
+            return redirect('/');
+        }
+
+        $phone = $input['Phone'];
+        $password = $input['Password'];
+        $captcha = $input['Captcha'];
+        $captcha = strtolower($captcha);
+
+        $pre_captcha = Session::get('captcha.code');
+        $pre_captcha = strtolower($pre_captcha);
+
+        if ($captcha != $pre_captcha){
+            return json_encode(Config::get('statusCode.statusCaptchaError'));
+        }
+
+        $u = UserModel::where(['phone'=>$phone, 'pwd'=>$password])->select('status')->get();
+        $c = count($u);
+        if ($c == 1){
+            $u = $u[0];
+            $pre_status = $u['status'];
+            if ($pre_status == 2){
+                return redirect('/ucenter');
+            }
+            else if ($pre_status == 1){
+                return json_encode(Config::get('statusCode.statusNotReg'));
+            }
+            else if ($pre_status == 3){
+                return json_encode(Config::get('statusCode.statusAccountDisabled'));
+            }
+            else
+            {
+                //
+            }
+        }
+        else if ($c == 0){
+            return json_encode(Config::get('statusCode.statusNotReg'));
+        }
+        else{
+            //todo::设置登录session
+
+            return redirect('/');
+        }
+
+    }
+
+    public function forgetpwd(Request $request){
+
+        $input = $request->all();
+
+        if (!isset($input['Phone']) || !isset($input['Phonecode'])|| !isset($input['Captcha']) ){
+            return redirect('/');
+        }
+
+        $phone = $input['Phone'];
+        $phonecode = $input['Phonecode'];
+        $captcha = $input['Captcha'];
+        $captcha = strtolower($captcha);
+
+        $u = UserModel::where('phone',$phone)->select('phone_code','status','updated_at')->get();
+        $c = count($u);
+        if ($c != 1){
+            return redirect('/');
+        }
+
+        $u = $u[0];
+
+        $pre_phone_code = $u['phone_code'];
+        $pre_captcha = Session::get('captcha.code');
+        $pre_captcha = strtolower($pre_captcha);
+
+        if ($captcha != $pre_captcha){
+            return json_encode(Config::get('statusCode.statusCaptchaError'));
+        }
+
+        if ($phonecode != $pre_phone_code){
+            return json_encode(Config::get('statusCode.statusGetPhoneCodeError'));
+        }
+
+        //手机码验证通过之后，设置session
+        Session::put('phone',$phone);
+        Session::put('resetpwd','yes');
+        //一次性session，只能进入重置密码页面一次
+        Session::flash('enter_resetpwd_page','yes');
+
         return redirect('resetpwd');
     }
 
-    public function resetpwd(){
-        //重置成功后在前端转到主页
-        return 'is reset';
+    public function resetpwd(Request $request){
+        $input = $request->all();
+
+        if (!isset($input['Password'])|| !isset($input['Confirm']) ){
+            return redirect('/');
+        }
+
+        $password = $input['Password'];
+        $confirm = $input['Confirm'];
+
+        //密码不一致
+        if ($password != $confirm){
+            return json_encode(Config::get('statusCode.statusPwdNotSame'));
+        }
+        //密码太简单
+        if (strlen($password) < 6){
+            return json_encode(Config::get('statusCode.statusPwdSimple'));
+        }
+
+        $phone = Session::get('phone');
+        $resetpwd = Session::get('resetpwd');
+        if ($phone == null || $resetpwd != 'yes'){
+            return redirect('/');
+        }
+        //注销session，防止多次使用
+        Session::forget('phone');
+        Session::forget('resetpwd');
+
+        //重置密码
+        $b = UserModel::where('phone',$phone)->update(['pwd'=>$password]);
+
+        //重置成功后，自动登录到个人中心
+        //todo::设置登录session
+
+        return redirect('ucenter');
     }
 
     public function test(){

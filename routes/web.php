@@ -11,6 +11,8 @@
 |
 */
 
+use Illuminate\Support\Facades\Session;
+
 $app->get('/', "QuizController@index");
 
 $app->get('/trade', function () {
@@ -21,7 +23,8 @@ $app->get('/ucenter', function () {
     return view("ucenter");
 });
 
-// 注册
+// 登录注册
+$app->post('/login', "UserController@login");
 $app->post('/reg', "UserController@reg");
 
 // 重置密码
@@ -30,7 +33,15 @@ $app->get('/forgetpwd', function () {
 });
 $app->post('/forgetpwd', "UserController@forgetpwd");
 $app->get('/resetpwd', function () {
-    return view("resetpwd");
+    $phone = Session::get('phone');
+    $resetpwd = Session::get('resetpwd');
+    $enter_resetpwd_page = Session::get('enter_resetpwd_page');
+    if ($phone == null || $resetpwd != 'yes' || $enter_resetpwd_page != 'yes'){
+        return redirect('/');
+    }
+    else{
+        return view("resetpwd");
+    }
 });
 $app->post('/resetpwd', "UserController@resetpwd");
 

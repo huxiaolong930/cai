@@ -5,6 +5,8 @@
                                                                        aria-hidden="true"></i>登录</a>.
         <a class="page-scroll" href="#myModal3" data-toggle="modal"><i class="fa fa-pencil-square-o"
                                                                        aria-hidden="true"></i>注册</a>
+        <a class="page-scroll" href="#myModal4" data-toggle="modal"><i class="fa fa-pencil-square-o"
+                                                                       aria-hidden="true"></i>找回密码</a>
     </div>
     <h1><a href="/">Clinical Care</a></h1>
     <div class="clearfix"></div>
@@ -27,13 +29,34 @@
                             <input type="password" name="Password" placeholder="密码" required=""/>
                             <div>
                                 <span class="text-left" style="width: 55%;display:inline-block">
-                                    <label class="anim">
-                                        <input type="checkbox" class="checkbox">
-                                        <span> Remember me ?</span>
-                                    </label>
+                                    <input type="text" id="loginCaptcha" name="Captcha" placeholder="验证码" required=""/>
                                 </span>
                                 <span class="text-right" style="width: 40%;display:inline-block">
-                                    <a href="/forgetpwd" >忘记密码？</a>
+                                    <?php
+                                        session_start();
+                                        $_SESSION = array();
+                                        require_once(base_path('public') . '/Captcha/simple-php-captcha.php');
+                                        $_SESSION['captcha'] = simple_php_captcha();
+
+                                        //$_SESSION['captcha']['code']
+                                    \Illuminate\Support\Facades\Session::put('captcha.code',$_SESSION['captcha']['code']);
+                                    \Illuminate\Support\Facades\Session::put('captcha.image_src',$_SESSION['captcha']['image_src']);
+
+                                        echo '<img width="90px" src="' . $_SESSION['captcha']['image_src'] . '" alt="">';
+                                    ?>
+                                </span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div>
+                                {{--<span class="text-left" style="width: 55%;display:inline-block">--}}
+                                    {{--<label class="anim">--}}
+                                        {{--<input type="checkbox" class="checkbox">--}}
+                                        {{--<span> Remember me ?</span>--}}
+                                    {{--</label>--}}
+                                {{--</span>--}}
+                                <span class="text-left" style="width: 40%;display:inline-block">
+                                    <a class="page-scroll" href="#myModal4" data-toggle="modal"><i class="fa fa-pencil-square-o"
+                                                                                                   aria-hidden="true"></i>忘记密码？</a>
                                 </span>
                                 <div class="clearfix"></div>
                             </div>
@@ -71,17 +94,8 @@
                                 </span>
                                 <span class="text-right" style="width: 40%;display:inline-block">
                                     <?php
-                                    session_start();
-                                    $_SESSION = array();
-                                    require_once(base_path('public') . '/Captcha/simple-php-captcha.php');
-                                    $_SESSION['captcha'] = simple_php_captcha();
-
-                                    //$_SESSION['captcha']['code']
-                                    \Illuminate\Support\Facades\Session::put('captcha.code',$_SESSION['captcha']['code']);
-
-                                    echo '<img width="90px" src="' . $_SESSION['captcha']['image_src'] . '" alt="">';
+                                        echo '<img width="90px" src="' . $_SESSION['captcha']['image_src'] . '" alt="">';
                                     ?>
-
                                 </span>
                                 <div class="clearfix"></div>
                             </div>
@@ -120,6 +134,54 @@
     </div>
 </div>
 <!-- //modal -->
+
+<!-- Forgetpwd modal -->
+<div class="modal about-modal w3-agileits fade" id="myModal4" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body login-page "><!-- forgetpwd-page -->
+                <div class="login-top sign-top">
+                    <div class="agileits-login">
+                        <h5>找回密码</h5>
+                        <form action="#" method="post">
+                            <input type="text" name="Phone" placeholder="手机号码" required=""/>
+                            <div>
+                                <span class="text-left" style="width: 55%;display:inline-block">
+                                    <input type="text" name="Phonecode" placeholder="手机码" required=""/>
+                                </span>
+                                <span class="text-right" style="width: 40%;display:inline-block">
+                                    <a href="javascript:;" onclick="getCode(this)">获取手机码</a>
+                                </span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div>
+                                <span class="text-left" style="width: 55%;display:inline-block">
+                                    <input type="text" id="loginCaptcha" name="Captcha" placeholder="验证码" required=""/>
+                                </span>
+                                <span class="text-right" style="width: 40%;display:inline-block">
+                                    <?php
+                                    echo '<img width="90px" src="' . $_SESSION['captcha']['image_src'] . '" alt="">';
+                                    ?>
+                                </span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="w3ls-submit">
+                                <input type="submit" value="下一步">
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div> <!-- //login-page -->
+    </div>
+</div>
+<!-- //modal -->
+
 <script>
     function getCode(obj) {
         var regPhone = $('#regPhone').val();
@@ -166,22 +228,15 @@
     }
 
     function reg() {
-
         var data = $("#formquery").serializeArray();
-
-        var regPhone = $('#regPhone').val();
-        var regCaptcha = $('#regCaptcha').val();
-        data.push({'Phone': regPhone, 'captcha': regCaptcha});
         $.ajax({
-            url: "/getPhoneCode",
+            url: "/reg",
             timeout: 3000,
             dataType: "json",
             data: data,
             async: true,
             type: "POST",
             beforeSend: function () {
-                $(obj).text('手机码发送中...');
-                $('#errorMsg').text('');
             },
             success: function (res) {
                 //手机码获取成功
@@ -202,10 +257,46 @@
                     //成功
                 }
                 else if (status == 'timeout') {
-                    $(obj).text('重新获取手机码');
                 }
                 else {
+                }
+
+            }
+        });
+    }
+
+    function login() {
+        var data = $("#formquery").serializeArray();
+        $.ajax({
+            url: "/login",
+            timeout: 3000,
+            dataType: "json",
+            data: data,
+            async: true,
+            type: "POST",
+            beforeSend: function () {
+            },
+            success: function (res) {
+                //手机码获取成功
+                if (res.code == '210') {
+                    $(obj).text(res.msg);
+                    $(obj).removeAttr("onclick");
+                }
+                //手机码获取失败
+                else if (res.code == '410') {
                     $(obj).text('重新获取手机码');
+                }
+                else{
+                    $('#errorMsg').text(res.msg);
+                }
+            },
+            complete: function (XMLHttpRequest, status) {
+                if (status == 'success') {
+                    //成功
+                }
+                else if (status == 'timeout') {
+                }
+                else {
                 }
 
             }
