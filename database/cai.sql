@@ -145,7 +145,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nickname` varchar(50) DEFAULT NULL,
   `phone` varchar(50) DEFAULT NULL,
-  `pwd` varchar(50) DEFAULT NULL,
+  `pwd` varchar(500) DEFAULT NULL,
+  `phone_code` varchar(50) DEFAULT NULL COMMENT '验证码',
+  `status` tinyint(4) DEFAULT NULL COMMENT '1:未启用 2:启用 3:禁用',
   `total_in` int(11) DEFAULT NULL COMMENT '总充值',
   `total_out` int(11) DEFAULT NULL COMMENT '总花费',
   `balance` int(11) DEFAULT NULL COMMENT '余额',
@@ -159,10 +161,10 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- 正在导出表  cai.user 的数据：~1 rows (大约)
+-- 正在导出表  cai.user 的数据：~0 rows (大约)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`id`, `nickname`, `phone`, `pwd`, `total_in`, `total_out`, `balance`, `cash`, `ROI`, `win_count`, `lose_count`, `WP`, `created_at`, `updated_at`) VALUES
-	(1, 'lonfen1108', '18601067675', '123456', 100, 15, 85, 0, NULL, NULL, NULL, NULL, '2017-05-04 18:19:40', '2017-05-04 18:19:42');
+INSERT INTO `user` (`id`, `nickname`, `phone`, `pwd`, `phone_code`, `status`, `total_in`, `total_out`, `balance`, `cash`, `ROI`, `win_count`, `lose_count`, `WP`, `created_at`, `updated_at`) VALUES
+	(1, 'lonfen1108', '18601067675', '123456', NULL, NULL, 100, 15, 85, 0, NULL, NULL, NULL, NULL, '2017-05-04 18:19:40', '2017-05-04 18:19:42');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
